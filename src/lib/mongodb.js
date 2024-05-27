@@ -1,6 +1,6 @@
 import User from './User';
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const uri = process.env.MONGODB_URL;
+const uri = MONGODB_URL;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -26,8 +26,7 @@ export async function getData(id, collection) {
 
 export async function getCollection(collection){
   try {
-
-    console.log("getCollection")
+    console.log(uri)
     const data = await findCollection(collection).find().toArray();
     return data;
   } catch (e) {
