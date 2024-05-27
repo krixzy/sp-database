@@ -77,8 +77,8 @@ jobs:
         env:
             MONGO_URL: ${{ secrets.MONGO_URL }}
         run: 
-        printenv
-        ${{ steps.detect-package-manager.outputs.runner }} next build
+          ENV
+          ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
