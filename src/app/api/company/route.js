@@ -18,11 +18,21 @@ return new Response(JSON.stringify({ message: "Virksomhed tilføjet" }), {
 };
 export const GET = async (req) => {
   console.log("GET BIG TITTS");
-  const companies = await getCollection("companies");
-  return new Response(JSON.stringify(companies), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+  try {
+    const companies = await getCollection("companies");
+    return new Response(JSON.stringify(companies), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ message: "Noget gik galt" }), {
+      status: 500,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+  }
+
 }
