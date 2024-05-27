@@ -20,9 +20,7 @@ export async function getData(id, collection) {
 
 export async function getCollection(collection){
   try {
-    console.log(uri)
     const data = await findCollection(collection).find().toArray();
-    console.log(data);
     return data;
   } catch (e) {
     console.error(e);

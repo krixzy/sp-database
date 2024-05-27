@@ -17,7 +17,6 @@ return new Response(JSON.stringify({ message: "Virksomhed tilføjet" }), {
 
 };
 export const GET = async (req) => {
-  console.log("GET BIG TITTS");
   try {
     const companies = await getCollection("companies");
     return new Response(JSON.stringify(companies), {
