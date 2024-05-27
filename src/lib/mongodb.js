@@ -26,6 +26,8 @@ export async function getData(id, collection) {
 
 export async function getCollection(collection){
   try {
+
+    console.log("getCollection")
     const data = await findCollection(collection).find().toArray();
     return data;
   } catch (e) {
