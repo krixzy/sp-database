@@ -80,7 +80,7 @@ jobs:
             MONGODB_URL: ${{ secrets.MONGODB_URL }}
         run: | 
           printenv
-          ${{ steps.detect-package-manager.outputs.runner }} next build
+          npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
