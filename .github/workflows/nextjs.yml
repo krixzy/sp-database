@@ -73,16 +73,10 @@ jobs:
             ${{ runner.os }}-nextjs-${{ hashFiles('**/package-lock.json', '**/yarn.lock') }}-
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Verify ENV variables
-        env:
-          MONGO_URL: ${{ secrets.MONGO_URL }}
-        run: |
-          # Print a portion of the MONGO_URL to verify it's set
-          echo "First 5 characters of MONGO_URL: ${MONGO_URL:0:5}"
-          # Optionally, print the length
-          echo "Length of MONGO_URL: ${#MONGO_URL}"
       - name: Build with Next.js
         env:
+            CLERK_SECRET_KEY: ${{ secrets.CLERK_SECRET_KEY }}
+            NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
             MONGO_URL: ${{ secrets.MONGO_URL }}
         run: | 
           printenv
