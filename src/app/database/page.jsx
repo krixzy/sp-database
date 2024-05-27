@@ -134,7 +134,7 @@ export default function Page() {
             </form>
           )}
         </div>
-        <div className=" z-0">
+        {/* <div className=" z-0">
           
           <h1 className="text-center text-3xl mb-6 font-bold">Virksomheder</h1>
             <div>
@@ -168,7 +168,7 @@ export default function Page() {
                 </tbody>
               </table>
             </div>
-        </div>
+        </div> */}
       </div>
     );
   }
