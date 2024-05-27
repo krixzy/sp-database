@@ -76,7 +76,7 @@ jobs:
       - name: Build with Next.js
         env:
             MONGO_URL: ${{ secrets.MONGO_URL }}
-        run: 
+        run: | 
           ENV
           ${{ steps.detect-package-manager.outputs.runner }} next build
       - name: Upload artifact
