@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
             <SignedOut>
               <div className="flex flex-col items-center justify-center h-screen">
                 <h1 className="text-4xl font-bold">Welcome to the SP database</h1>
-                <SignInButton className="mt-8" />
+                <SignInButton className="bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600" />
               </div>
             </SignedOut>
           </body>
