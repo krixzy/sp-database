@@ -15,6 +15,13 @@ export async function saveData(data, collection) {
 }
 
 export async function getData(id, collection) {
+  
+    try {
+      const data = await findCollection(collection).findOne({ _id: new ObjectId(id) });
+      return data;
+    } catch (e) {
+      console.error(e);
+    }
 
 }
 
@@ -37,6 +44,17 @@ export async function deleteData(id, collection) {
     console.error(e);
   }
 }
+
+export async function updateData(id, data, collection) {
+  
+    try {
+      await findCollection(collection).updateOne({ _id: new ObjectId(id) }, { $set: data });
+  
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
 
 
 const findCollection = (collection) => {

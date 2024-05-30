@@ -1,13 +1,12 @@
-import { Company } from '@/models/company';
+import  Company  from '@/models/company';
 import { saveData, getCollection} from '@/lib/mongodb';
 
 export const POST = async (req) => {
-  const { name, address,  email, billingMail, phone } = await req.json();
-  const company = new Company(name, address, phone, email, billingMail);
+  const { name, address,  email, billingMail, phone, paymentDeadline } = await req.json();
+  const company = new Company(name, address, phone, email, billingMail, paymentDeadline);
   await saveData(company, "companies");
 
 
-// console.log(name, address,  email, billingMail,  phone);
 return new Response(JSON.stringify({ message: "Virksomhed tilføjet" }), {
     status: 200,
     headers: {

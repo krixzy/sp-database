@@ -1,10 +1,27 @@
-export class Company {
-  constructor(name, address, phone, email, billingMail) {
+export default class Company {
+  constructor(name, address, phone, email, billingMail, paymentDeadline, id, pallets = []) {
+    this.id = id;
     this.name = name;
     this.address = address;
     this.phone = phone;
     this.email = email; 
     this.billingMail = billingMail;
+    this.paymentDeadline = paymentDeadline;
     this.pallets = [];
+  }
+
+
+  
+  static fromJSON(json) {
+    return new Company(
+      json.name,
+      json.address,
+      json.phone,
+      json.email,
+      json.billingMail,
+      json.paymentDeadline,
+      json._id,
+      json.pallets || []
+    );
   }
 }
