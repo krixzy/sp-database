@@ -1,13 +1,21 @@
-const authorized = (children) => {
-    console.log(children);
-    return(
-        <div>
-            <h1 className="text-center">Authorized</h1>
-            <children/>
-        </div>
-    );
+import { cookies } from "next/headers";
+import { getCollection } from "@/lib/mongodb";
 
+
+
+export const authorized = () => {
+    const userId = cookies().get('userId');
+    if(userId == undefined){
+        return false
+    } else {
+        return true
+    }
 
 }
 
-export default authorized;
+
+export const login = (data) => {
+    const loginCollection = getCollection("user")
+    console.log(data)
+    // console.log(loginCollection)
+}

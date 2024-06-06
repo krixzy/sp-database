@@ -46,7 +46,7 @@ export async function deleteData(id, collection) {
 }
 
 export async function updateData(id, data, collection) {
-  
+    
     try {
       await findCollection(collection).updateOne({ _id: new ObjectId(id) }, { $set: data });
   
