@@ -4,31 +4,13 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { currentAuthLevel } from '@/lib/currentAuthLevel'; // Antag at dette er stien til auth funktionen
 import Company from '@/models/company';
-import Pallets from '@/components/pallets';
+import Pallets from '@/components/pallets_page';
 
 
 export default function Page({ params }) {
-  const [authStatus, setAuthStatus] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
   const [pageLoading, setPageLoading] = useState(true);
   const [company, setCompany] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-
-  useEffect(() => {
-    const checkAuth = async () => {
-      const authLevel = await currentAuthLevel();
-      if (authLevel >= 1) {
-        setAuthStatus(true);
-        setAuthLoading(false)
-      } else {
-        setAuthStatus(false);
-        setAuthLoading(false)
-
-      }
-    };
-
-    checkAuth();
-  }, []);
 
   const handleSaveClick = async () => {
     setIsEditing(false);
@@ -70,10 +52,10 @@ export default function Page({ params }) {
   };
   
 
-  while (authLoading || pageLoading) {
+  while (pageLoading) {
     return <div className='text-center'>Loading...</div>;
   }
-return authStatus ? (
+return(
   <div className="">
   <div className="text-center">
     <h1 className="text-3xl font-bold text-gray-900 mb-4">{company.name}</h1>
@@ -161,14 +143,11 @@ return authStatus ? (
       )}
     </div>
   </div>
-  <div>
+  <div className=' mt-5'>
     <Pallets company={company}/>
   </div>
 </div>
-) : (
-  <div className="text-center">
-    <h1 className="text-2xl font-bold">You are not authorized to view this page</h1>
-  </div>
 );
+
 
 }

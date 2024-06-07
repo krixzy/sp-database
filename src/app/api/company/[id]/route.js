@@ -32,11 +32,9 @@ export const GET = async (req, { params }) => {
 
 }
 
-export const PUT = async (req, { params }) => {
-  const { id } = params;
-  const { name, address, email, billingMail, phone, paymentDeadline } = await req.json();
-  const company = { name, address, email, billingMail, phone, paymentDeadline };
-  await updateData(id, company, "companies");
+export const PUT = async (req) => {
+  const company = await req.json();
+  await updateData(company.id, company, "companies");
   return new Response(JSON.stringify({ message: "Virksomhed opdateret" }), {
     status: 200,
     headers: {

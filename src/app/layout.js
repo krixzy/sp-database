@@ -1,16 +1,10 @@
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
-} from '@clerk/nextjs'
-
-
+import {authorized, login} from "@/components/authorized";
 import "./globals.css";
 import Nav from "../components/Nav";
-import { cookies } from "next/headers";
 import { redirect } from 'next/navigation'
+import Link from "next/link";
+import Loginpage from "@/components/login_page";
+
 
 
 export const metadata = {
@@ -19,24 +13,27 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  
+  // const handleSubmission = async (event) => {
+  //   event.preventDefault();
+  //   const formData = new FormData(event.target);
+  //   login(formData);
+  // };
 
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body>
-          <Nav />
-            <SignedIn>
-             {children}
-            </SignedIn>
-            <SignedOut>
-              <div className="flex flex-col items-center justify-center h-screen">
-                <h1 className="text-4xl font-bold">Welcome to the SP database</h1>
-                <SignInButton className="bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600" />
-              </div>
-            </SignedOut>
-          </body>
-      </html>
-    </ClerkProvider>
+    <html lang="en">
+      <body>
+        <Nav />
+        {authorized() ? (
+          children
+        ) : (
+          <div className="flex flex-col items-center justify-center h-screen">
+            <h1 className="text-4xl font-bold">
+              Du har ikke adgang til denne side
+            </h1>
+            <Loginpage />
+          </div>
+        )}
+      </body>
+    </html>
   );
 }
