@@ -17,6 +17,7 @@ export default function Pallets(params) {
     const createPallet = async (data) => {
         data.preventDefault();
         const formData = new FormData(data.target);
+        setAddPallet(false);
         const name = formData.get('name');
         const price = formData.get('price') == '' ? 0 : formData.get('price');
         const size = formData.get('size') == '' ? 0 : formData.get('size');
@@ -24,12 +25,13 @@ export default function Pallets(params) {
         const coToo = formData.get('coToo') == '' ? "Not Yet Calculated " : formData.get('coToo');  
         const comment = formData.get('comment') == '' ? "N/A" : formData.get('comment');
         const newPallet = new Pallet(name, price, size, itemNumber, comment, coToo, Pallet.generateID());
-        const updatedPallets = [...company.pallets, newPallet];
-        console.log(updatedPallets);
-        setCompany({ ...company, pallets: updatedPallets });
+        const updatedPallets = company.pallets.concat(newPallet);
+        const updatedCompany = { ...company, pallets: updatedPallets };
+        setCompany(updatedCompany);
+    
+    await saveCompany(updatedCompany);
         console.log(company);
-        await saveCompany();
-        setAddPallet(false);
+        
         
         
     }
@@ -39,14 +41,13 @@ export default function Pallets(params) {
         await saveCompany({ ...company, pallets: updatedPallets });
     }
 
-    const saveCompany = async () => {
-        console.log(company);
-        const res = await fetch(`/api/company/${company.id}`, {
+    const saveCompany = async (updatedCompany) => {
+        const res = await fetch(`/api/company/${updatedCompany.id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(company),
+            body: JSON.stringify(updatedCompany),
         });
     }
 
@@ -109,9 +110,9 @@ export default function Pallets(params) {
                         </tr>
                     </thead>
                     <tbody>
-                        {company.pallets.map((pallet) => {
+                        {company.pallets && company.pallets.length > 0 ? (
+                        company.pallets.map((pallet) => {
                             return(
-                                <>
                                 <tr key={pallet.id}>
                                     <td>{pallet.itemNumber}</td>
                                     <td>{pallet.name}</td>
@@ -123,17 +124,15 @@ export default function Pallets(params) {
                                         <Popup trigger={<button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>{}Rediger</button>} modal>
                                             <ChangePallet company={company} palletId={pallet.id}  />
                                         </Popup>
-                                        {/* <button onClick={() => handleEditPallet(pallet.id)} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Rediger</button> */}
                                         <button onClick={(event) => { deletePallet(pallet.id)}} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Slet</button>
                                     </td>
                                 </tr>
-                                </>
-                                
                         )
                             
                         })
-                        }
-
+                        ):(  <tr>
+                            <td colSpan="7">Ingen paller tilgængelige</td>
+                        </tr>)}
                     </tbody>
                     
                     </table>
