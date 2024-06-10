@@ -1,3 +1,5 @@
+import {Pallet} from '@/models/pallet';
+
 export default class Company {
   constructor(name, address, phone, email, billingMail, paymentDeadline, id, pallets = []) {
     this.id = id;
@@ -7,9 +9,13 @@ export default class Company {
     this.email = email; 
     this.billingMail = billingMail;
     this.paymentDeadline = paymentDeadline;
-    this.pallets = [];
+    this.pallets = pallets;
   }
 
+
+  addPallet(pallet) {
+    this.pallets.push(pallet);
+  }
 
   
   static fromJSON(json) {
@@ -21,7 +27,10 @@ export default class Company {
       json.billingMail,
       json.paymentDeadline,
       json._id,
-      json.pallets || []
+      json.pallets.map((pallet) => Pallet.fromJSON(pallet) )
     );
   }
 }
+
+
+

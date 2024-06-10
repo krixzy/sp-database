@@ -6,7 +6,6 @@ import Link from "next/link";
 
 export default function Page() {
   const [loaded, setLoaded] = useState(false);
-  const [authorized, setAuthorized] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);  
   const [companies, setCompanies] = useState([]);
@@ -54,7 +53,6 @@ export default function Page() {
       },
       body: JSON.stringify({ name, address, email, billingMail, phone, paymentDeadline }),
     });
-    console.log(res.ok)
     if (res.ok) {
       const resData = await res.json();
       event.target.reset();
@@ -67,26 +65,12 @@ export default function Page() {
   }
   
   useEffect(() => {
-    const auth = async () => {
-      const authLevel = await checkAuthLevel();
-      if (authLevel >= 1) {
-        setAuthorized(true);
-      }else{
-        setAuthorized(false);
-      }
-      setLoaded(true);
-      
-    }
-    auth();
-
-  }, []);
-  
-  useEffect(() => {
     const getCompaniesData = async () => {
       const companies = await getCompanies();
       setCompanies(companies.sort((a, b) => a.name.localeCompare(b.name)));
     }
     getCompaniesData();
+    setLoaded(true);
   }, [showForm]);
 
 
@@ -100,17 +84,13 @@ export default function Page() {
     while (!loaded) {
       return <h1 className="text-center">Loading...</h1>;
     }
-    if (!authorized) {
-      return <h1 className="text-center">Du har ikke tilladelse til at se denne side, hvis dette er en fejl skal du kontakt en administrator</h1>;
-    }
-  
+    
     return (
       <div>
         <div className="flex flex-col items-center">
           <button
             onClick={toggleForm}
             className="mb-4 bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600"
-            hidden={showForm}
           >
             Tilføj virksomhed
           </button>
@@ -147,7 +127,7 @@ export default function Page() {
                 <input type="text" name="payment-deadline" value={"8 dage"} className="w-full border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500" />
               </div>
               <div className="mb-4 flex ">
-                <input type="submit" value="Tilføj" disabled={submitting} className="w-full bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600" />
+                <input type="submit" value="Gem" disabled={submitting} className="w-full bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600" />
                 <button onClick={toggleForm} className="w-full bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600">Fortryd</button>
               </div>
             </form>
