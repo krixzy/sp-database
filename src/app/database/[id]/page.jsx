@@ -76,7 +76,16 @@ export default function Page({ params }) {
 return authStatus ? (
   <div className="">
   <div className="text-center">
-    <h1 className="text-3xl font-bold text-gray-900 mb-4">{company.name}</h1>
+    {isEditing ? (
+      <input
+        type="text"
+        name="name"
+        value={company.name}
+        onChange={handleChange}
+        className="border rounded p-1"
+      />
+    ) : <h1 className="text-3xl font-bold text-gray-900 mb-4">{company.name}</h1>
+  }
   </div>
   <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-lg space-y-3">
     <div className="flex items-center space-x-2">

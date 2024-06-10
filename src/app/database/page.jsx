@@ -47,7 +47,6 @@ export default function Page() {
     const billingMail = formData.get("billing-mail") == "" ? "blank" : formData.get("billing-mail");
     const phone = formData.get("phone") == "" ? "blank" : formData.get("phone");
     const paymentDeadline = formData.get("payment-deadline") == "" ? "8 dage" : formData.get("payment-deadline");
-    // Sender en POST-anmodning med formulardataene
     const res = await fetch("/api/company", {
       method: "POST",
       headers: {
@@ -65,7 +64,6 @@ export default function Page() {
       alert("Noget gik galt, prøv igen, hvis problemet fortsætter kontakt en administrator");
     }
     setSubmitting(false);
-    // Nulstiller formularfelterne efter vellykket indsendelse
   }
   
   useEffect(() => {
@@ -86,7 +84,7 @@ export default function Page() {
   useEffect(() => {
     const getCompaniesData = async () => {
       const companies = await getCompanies();
-      setCompanies(companies);
+      setCompanies(companies.sort((a, b) => a.name.localeCompare(b.name)));
     }
     getCompaniesData();
   }, [showForm]);
@@ -146,7 +144,7 @@ export default function Page() {
               </div>
               <div>
                 <label htmlFor="payment-deadline" className="block text-gray-700 font-bold">Betalings frist</label>
-                <input type="text" name="payment-deadline" placeholder="tilføj betalings frist (valgfrit)" className="w-full border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500" />
+                <input type="text" name="payment-deadline" value={"8 dage"} className="w-full border-2 border-gray-300 rounded-md p-2 focus:outline-none focus:border-blue-500" />
               </div>
               <div className="mb-4 flex ">
                 <input type="submit" value="Tilføj" disabled={submitting} className="w-full bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600" />
@@ -182,7 +180,7 @@ export default function Page() {
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                    {companies.map((company) => (
+                    {companies.sort((a, b) => {a.name.localeCompare(b.name)}).map((company) => (
                         <tr key={company._id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
                             {tableToggle ? (
                                 <>
