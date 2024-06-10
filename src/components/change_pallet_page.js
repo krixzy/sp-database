@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 export default function ChangePallet(params) {
   const [pallet, setPallet] = useState(params.company.pallets.find(pallet => pallet.id == params.palletId));
   const [company, setCompany] = useState(params.company);
-  const updatePallet = async () => {
-    const res = await fetch(`/api/company/${company.id}`, {
-      
 
+  const updatePallet = async (event) => {
+    event.preventDefault();
+    const res = await fetch(`/api/company/${company.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -16,6 +16,7 @@ export default function ChangePallet(params) {
     });
     if (res.ok) {
       alert("Pallen er nu opdateret");
+      window.location.reload();
     } else {
       alert("Der er sket en fejl, prøv igen eller kontakt administrator")
     }
@@ -62,7 +63,7 @@ export default function ChangePallet(params) {
                       </div>
                       <div className='flex justify-center mt-4'>
                           <input type='submit' value={"Gem"} className="w-full bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600" />
-                          <button onClick={updatePallet} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Fortryd</button>
+                          {/* <button onClick={updatePallet} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Fortryd</button> */}
                           
                       </div>
                   </form>

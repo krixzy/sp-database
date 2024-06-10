@@ -119,7 +119,7 @@ export default function Pallets(params) {
                                     <td>{pallet.comment}</td>
                                     <td>{pallet.size}mm.</td>
                                     <td>{pallet.price}kr</td>
-                                    <td>{pallet.coToo}g</td>
+                                    <td>{pallet.coToo.startsWith("Not")? (pallet.coToo):(pallet.coToo + " g")}</td>
                                     <td>
                                         <Popup trigger={<button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>{}Rediger</button>} modal>
                                             <ChangePallet company={company} palletId={pallet.id}  />
