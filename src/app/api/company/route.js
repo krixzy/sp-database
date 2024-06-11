@@ -2,8 +2,9 @@ import  Company  from '@/models/company';
 import { saveData, getCollection} from '@/lib/mongodb';
 
 export const POST = async (req) => {
-  const { name, address,  email, billingMail, phone, paymentDeadline } = await req.json();
-  const company = new Company(name, address, phone, email, billingMail, paymentDeadline);
+  const { name, address,  email, billingMail, phone, paymentDeadline, comment } = await req.json();
+  console.log(name, address, email, billingMail, phone, paymentDeadline, comment);
+  const company = new Company(name, address, phone, email, billingMail, paymentDeadline, " ", [],  comment);
   await saveData(company, "companies");
 
 
