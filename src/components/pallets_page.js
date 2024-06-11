@@ -22,7 +22,7 @@ export default function Pallets(params) {
         const price = formData.get('price') == '' ? 0 : formData.get('price');
         const size = formData.get('size') == '' ? 0 : formData.get('size');
         const itemNumber = formData.get('itemNumber') == '' ? "N/A" : formData.get('itemNumber');
-        const coToo = formData.get('coToo') == '' ? "Not Yet Calculated " : formData.get('coToo');  
+        const coToo = formData.get('coToo') == '' ? "Ikke udregnet endnu " : formData.get('coToo');  
         const comment = formData.get('comment') == '' ? "N/A" : formData.get('comment');
         const newPallet = new Pallet(name, price, size, itemNumber, comment, coToo, Pallet.generateID());
         const updatedPallets = company.pallets.concat(newPallet);
@@ -84,7 +84,7 @@ export default function Pallets(params) {
                             <input type='text' name="comment" className='border rounded p-1 text-center' placeholder="Valgfrit" />
                         </div>
                         <div className='flex flex-col'>
-                            <label>co2 forbrug</label>
+                            <label>Co2 forbrug</label>
                             <input type='text' name="coToo" className='border rounded p-1 text-center' placeholder="Valgfrit" />
                         </div>
                         <div className='flex justify-center mt-4'>
@@ -105,7 +105,7 @@ export default function Pallets(params) {
                             <th>Kommentar</th>
                             <th>Størrelse</th>
                             <th>Pris</th>
-                            <th>co2 forbrug</th>
+                            <th>Co2 forbrug</th>
                             <th>aktioner</th>
                         </tr>
                     </thead>
@@ -119,7 +119,7 @@ export default function Pallets(params) {
                                     <td>{pallet.comment}</td>
                                     <td>{pallet.size}mm.</td>
                                     <td>{pallet.price}kr</td>
-                                    <td>{pallet.coToo.startsWith("Not")? (pallet.coToo):(pallet.coToo + " g")}</td>
+                                    <td>{pallet.coToo.startsWith("Ikke")? (pallet.coToo):(pallet.coToo + " g")}</td>
                                     <td>
                                         <Popup trigger={<button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>{}Rediger</button>} modal>
                                             <ChangePallet company={company} palletId={pallet.id}  />
