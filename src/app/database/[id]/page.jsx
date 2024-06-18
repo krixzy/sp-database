@@ -51,7 +51,6 @@ export default function Page({ params }) {
   while (pageLoading) {
     return <div className='text-center'>Loading...</div>;
   }
-  console.log(company);
 
   return (
     <div className="">

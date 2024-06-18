@@ -17,7 +17,7 @@ export default function Loginpage(){
         if (response.ok) {
             const data = await response.json();
             alert(data.message);
-            window.location.reload();
+            // window.location.reload();
 
         } else {
             alert("forkert login");

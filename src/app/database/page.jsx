@@ -10,6 +10,7 @@ export default function Page() {
   const [showForm, setShowForm] = useState(false);  
   const [companies, setCompanies] = useState([]);
   const [tableToggle, setTableToggle] = useState(true);
+  const [allCompanies, setAllCompanies] = useState([companies]);
 
   const deleteCompany = async (id) => {
     const res = await fetch(`/api/company/${id}`, {
@@ -69,6 +70,7 @@ export default function Page() {
     const getCompaniesData = async () => {
       const companies = await getCompanies();
       setCompanies(companies.sort((a, b) => a.name.localeCompare(b.name)));
+      setAllCompanies(companies);
       setLoaded(true);
     }
     getCompaniesData();
@@ -82,6 +84,33 @@ export default function Page() {
     setTableToggle(!tableToggle);
   };
 
+  const searchCompany = (event) => {
+    const search = event.target.value;
+    switch (document.getElementById('searchType').value) {
+      case 'name':
+        var updatedCompanies = allCompanies.filter((company) => company.name.toLowerCase().includes(search.toLowerCase()));
+        setCompanies(updatedCompanies);
+        break;
+      case 'address':
+        var updatedCompanies = allCompanies.filter((company) => company.address.toLowerCase().includes(search.toLowerCase()));
+        setCompanies(updatedCompanies);
+        break;
+      case 'phone':
+        var updatedCompanies = allCompanies.filter((company) => company.phone.toLowerCase().includes(search.toLowerCase()));
+        setCompanies(updatedCompanies);
+        break;
+      case 'email':
+        var updatedCompanies = allCompanies.filter((company) => company.email.toLowerCase().includes(search.toLowerCase()));
+        setCompanies(updatedCompanies);
+        break;
+      case 'billingMail':
+        var updatedCompanies = allCompanies.filter((company) => company.billingMail.toLowerCase().includes(search.toLowerCase()));
+        setCompanies(updatedCompanies);
+        break;
+      default:
+        break;
+    }
+  }
     while (!loaded) {
       return <h1 className="text-center">Loading...</h1>;
     }
@@ -138,19 +167,32 @@ export default function Page() {
             </form>
           )}
         </div>
+        
         <div className=" z-0 mb-14">
           
           <h1 className="text-center text-3xl mb-6 font-bold">Virksomheder</h1>
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div className=" flex ms-20 justify-left mb-2">
+            <label className="me-1" htmlFor="">Søg på </label>
+            <select id="searchType" name="options">
+              <option value="name">Virksomhed:</option>
+              <option value="address">Adresse:</option>
+              <option value="phone">Telefon:</option>
+              <option value="email">Mail:</option>
+              <option value="billingMail">Faktura mail:</option> 
+            </select>
+            <input  placeholder="Skriv her" className="border-2 rounded-xl border-black" onChange={searchCompany} type="text" />
+          </div>
+            <div className=" ps-8 pe-8 relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead>
-                  <tr className="text-center">
+                  <tr>
                     {tableToggle ? (
                         <>
                             <th>Virksomhed</th>
                             <th>Adresse</th>
                             <th>Mail</th>
                             <th>Telefon</th>
+                            <th>Kommentar</th>
                             <th>Aktioner</th>
                         </>
                     ) : (
@@ -165,28 +207,29 @@ export default function Page() {
                     )}
                   </tr>
                 </thead>
-                <tbody className="text-center">
+                <tbody>
                   
                     {companies.map((company) => (
-                        <tr key={company._id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                        <tr key={company._id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-200 even:dark:bg-gray-800 border-b dark:border-gray-700">
                             {tableToggle ? (
                                 <>
-                                  <td>{company.name}</td>
-                                  <td>{company.address}</td>
-                                  <td>{company.email}</td>
-                                  <td>{company.phone}</td>
-                                  <td className="text-center">
+                                  <td className=" text-base">{company.name}</td>
+                                  <td className="text-base">{company.address}</td>
+                                  <td className="text-base">{company.email}</td>
+                                  <td className="text-base">{company.phone}</td>
+                                  <td className="text-base max-w-52">{company.comment}</td>
+                                  <td>
                                       <Link href={`/database/${company._id}`} className="bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600">Se mere</Link>
                                       <button onClick={() => deleteCompany(company._id)} className="bg-red-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-red-600">Slet</button>
                                   </td>
                                 </>
                             ) : (
                                 <>
-                                  <td>{company.name}</td>
-                                  <td>{company.address}</td>
-                                  <td>{company.paymentDeadline}</td>
-                                  <td>{company.billingMail}</td>
-                                  <td>{company.comment}</td>
+                                  <td className=" text-base">{company.name}</td>
+                                  <td className="text-base">{company.address}</td>
+                                  <td className="text-base">{company.paymentDeadline}</td>
+                                  <td className="text-base">{company.billingMail}</td>
+                                  <td className="text-base max-w-52">{company.comment}</td>
                                   <td className="text-center">
                                       <Link href={`/database/${company._id}`} className="bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600">Se mere</Link>
                                       <button onClick={() => deleteCompany(company._id)} className="bg-red-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-red-600">Slet</button>
@@ -202,16 +245,5 @@ export default function Page() {
       </div>
     );
   }
-
-const checkAuthLevel = async () => {
-  const res = await fetch("/api/check-auth", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const data = await res.json();
-  return data.user_auth;
-}
 
 
