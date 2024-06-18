@@ -2,7 +2,7 @@
 
 import {useState, useEffect} from 'react';
 
-export default function page({params}) {
+export default function pagec({params}) {
     const [pageLoading, setPageLoading] = useState(true);
     const [company, setCompany] = useState(null);
     const [pallet, setPallet] = useState(null);
