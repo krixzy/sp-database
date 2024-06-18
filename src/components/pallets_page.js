@@ -158,7 +158,7 @@ export default function Pallets(params) {
                                         <Popup trigger={<button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>{}Rediger</button>} modal>
                                             <ChangePallet company={company} palletId={pallet.id}  />
                                         </Popup>
-                                        <Link href={`/database/${company.id}/${pallet.id}`} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ms-1 me-1' > Byg </Link>
+                                        {/* <Link href={`/database/${company.id}/${pallet.id}`} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ms-1 me-1' > Byg </Link> */}
                                         <button onClick={(event) => { deletePallet(pallet.id)}} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Slet</button>
                                     </td>
                                 </tr>
