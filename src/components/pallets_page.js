@@ -4,12 +4,16 @@ import { useEffect, useState } from "react";
 import { Pallet } from "@/models/pallet";
 import ChangePallet from "@/components/change_pallet_page";
 import Popup from 'reactjs-popup'; 
+import Link from "next/link";
+
 
 
 export default function Pallets(params) {
     const [company, setCompany] = useState(params.company);
+    const [originalPallets, setOriginalPallets] = useState(params.company.pallets);
     const [addPallet, setAddPallet] = useState(false);
-    const [changePallet, setChangePallet] = useState(false);
+    // const [changePallet, setChangePallet] = useState(false);
+
     const handleAddPallet = () => {
         setAddPallet(!addPallet);
     }
@@ -30,7 +34,6 @@ export default function Pallets(params) {
         setCompany(updatedCompany);
     
     await saveCompany(updatedCompany);
-        console.log(company);
         
         
         
@@ -51,14 +54,45 @@ export default function Pallets(params) {
         });
     }
 
-    const handleEditPallet = (id) => {
-        setChangePallet(!changePallet);
+    const serachPallet = async (event) => {
+        const value = event.target.value;
+        let updatedPallets = [];
+
+        switch (document.getElementById('searchType').value) {
+            case 'size':
+                updatedPallets = originalPallets.filter((pallet) => pallet.size.toString().includes(value));
+                break;    
+            case 'itemNumber':
+                updatedPallets = originalPallets.filter((pallet) => pallet.itemNumber.includes(value));
+                break;
+            case 'price':
+                updatedPallets = originalPallets.filter((pallet) => pallet.price.toString().includes(value));
+                break;
+            case 'name':
+                updatedPallets = originalPallets.filter((pallet) => pallet.name.includes(value));
+                break;
+            default:
+                updatedPallets = originalPallets;
+                break;
+        }
+
+        setCompany({ ...company, pallets: updatedPallets });
     }
     return(
         <div>
             <h1 className='text-3xl font-bold text-gray-900 mb-4 text-center'>Paller</h1>
             <div className="flex justify-center">
                 <button onClick={handleAddPallet} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Tilføj palle</button>
+            </div>
+             <div className=" flex ms-10 justify-left mb-2">
+                <label className="me-1">Søg på </label>
+                <select id="searchType" name="options">
+                    <option value="size">Størrelse:</option>
+                    <option value="itemNumber">Varenummer:</option>
+                    <option value="price">Pris:</option>
+                    <option value="name">Navn:</option>
+                </select>
+                <input  placeholder="Skriv her" className="border-2 rounded-xl border-black" type="text" onChange={serachPallet} />
             </div>
             {addPallet ? (
                 <div className="flex justify-center">
@@ -96,7 +130,7 @@ export default function Pallets(params) {
                 </div>
             ) : null}
     
-            <div>
+            <div className=" mb-10">
                 <table className='w-full mt-4 text-center'>    
                     <thead className="">
                         <tr>
@@ -113,17 +147,18 @@ export default function Pallets(params) {
                         {company.pallets && company.pallets.length > 0 ? (
                         company.pallets.map((pallet) => {
                             return(
-                                <tr key={pallet.id}>
+                                <tr className=" border-b-2 " key={pallet.id}>
                                     <td>{pallet.itemNumber}</td>
                                     <td>{pallet.name}</td>
-                                    <td>{pallet.comment}</td>
-                                    <td>{pallet.size}mm.</td>
+                                    <td className=" max-w-72">{pallet.comment}</td>
+                                    <td>{pallet.size} mm.</td>
                                     <td>{pallet.price}kr</td>
                                     <td>{pallet.coToo.startsWith("Ikke")? (pallet.coToo):(pallet.coToo + " g")}</td>
                                     <td>
                                         <Popup trigger={<button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>{}Rediger</button>} modal>
                                             <ChangePallet company={company} palletId={pallet.id}  />
                                         </Popup>
+                                        <Link href={`/database/${company.id}/${pallet.id}`} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ms-1 me-1' > Byg </Link>
                                         <button onClick={(event) => { deletePallet(pallet.id)}} className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'>Slet</button>
                                     </td>
                                 </tr>

@@ -20,6 +20,7 @@ export default class Company {
 
   
   static fromJSON(json) {
+    console.log(json.comment);
     return new Company(
       json.name,
       json.address,
@@ -28,9 +29,8 @@ export default class Company {
       json.billingMail,
       json.paymentDeadline,
       json._id,
-      json.pallets.map((pallet) => Pallet.fromJSON(pallet),
+      json.pallets.map((pallet) => Pallet.fromJSON(pallet)),
       json.comment
-    )
     );
   }
 }
