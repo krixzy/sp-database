@@ -1,8 +1,8 @@
 "use client";
 
-import {useState, useEffect} from 'react';
+import { useEffect, useState } from 'react';
 
-export default function pagec({params}) {
+export default function page({params}) {
     const [pageLoading, setPageLoading] = useState(true);
     const [company, setCompany] = useState(null);
     const [pallet, setPallet] = useState(null);

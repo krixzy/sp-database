@@ -4,7 +4,7 @@ import Link from "next/link";
 
 
 
-export default function Pagea() {
+export default function Page() {
   const [loaded, setLoaded] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [showForm, setShowForm] = useState(false);  

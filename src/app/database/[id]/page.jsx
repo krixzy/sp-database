@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Company from '@/models/company';
 import Pallets from '@/components/pallets_page';
 
-export default function Pageb({ params }) {
+export default function Page({ params }) {
   const [pageLoading, setPageLoading] = useState(true);
   const [company, setCompany] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
