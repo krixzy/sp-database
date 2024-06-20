@@ -1,5 +1,5 @@
 export class Pallet {
-  constructor(name, price, size, itemNumber, comment, coToo, id, palletComponentes = []) {
+  constructor(name, price, size, itemNumber, comment, coToo, id, palletComponentes = "") {
     this.id = id;
     this.name = name;
     this.price = price;
