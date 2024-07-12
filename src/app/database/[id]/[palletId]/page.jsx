@@ -7,7 +7,7 @@ import Company from '@/models/company';
 import Pallet from '@/models/pallet';
 import Plank from '@/models/plank';
 import Block from '@/models/block';
-import PalletCalculaterPopup from '@/components/price_calculater_popup';
+import PalletCalculaterPopup from '@/components/pallet_calculater_popup';
 
 export default function Page({params}) {
     const [pageLoading, setPageLoading] = useState(true);
