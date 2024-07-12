@@ -38,7 +38,14 @@ export default function PalletCalculaterPopup( params ) {
         event.preventDefault();
         pallet.price = onePalletPrice;
         pallet.palletComponentes.m3 = m3;
+        if(await params.save()){
+            window.location.reload();
+        }
+    }
+    const saveCo2 = async (event) => {
+        event.preventDefault();
         pallet.coToo = co2;
+        pallet.palletComponentes.m3 = m3;
         if(await params.save()){
             window.location.reload();
         }
@@ -70,7 +77,8 @@ export default function PalletCalculaterPopup( params ) {
                 </div>
                 <div className="mb-4 justify-center text-center">
                     <input type='submit' value='Beregn' className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' />
-                    <input value="Gem" onClick={savePrice} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button" />
+                    <input value="Gem pris" onClick={savePrice} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button" />
+                    <input value="Gem co2" onClick={saveCo2} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="button" />
                 </div>
             </form>
             <div>
