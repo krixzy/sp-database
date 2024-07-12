@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Company from '@/models/company';
-import Pallets from '@/components/pallets_page';
+import PalletsPage from '@/components/pallets_page';
 
 export default function Page({ params }) {
   const [pageLoading, setPageLoading] = useState(true);
@@ -165,7 +165,7 @@ export default function Page({ params }) {
         )}
       </div>
       <div className=' mt-5'>
-        <Pallets company={company} />
+        <PalletsPage company={company} />
       </div>
     </div>
   );

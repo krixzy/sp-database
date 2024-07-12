@@ -38,7 +38,7 @@ export const POST = async (req) => {
     const loginCollection = await getCollection("user");
     for (const element of loginCollection) {
         if (element.username === user.username && element.password === user.password) {
-            cookies().set('userId', element._id, {httpOnly: true, path: '/', expires: new Date(Date.now() + 1000 * 60 * 60 * 24)});
+            cookies().set('userId', element._id, {httpOnly: true, path: '/', expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)});
 
             return true;
         }

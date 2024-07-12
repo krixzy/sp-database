@@ -5,14 +5,16 @@ import { Pallet } from "@/models/pallet";
 import ChangePallet from "@/components/change_pallet_page";
 import Popup from 'reactjs-popup'; 
 import Link from "next/link";
+import ChangePalletPricePopup from "@/components/change_pallet_price_popup";
+import ConnectToCompanyPopup from "@/components/connect_to_company_popup";
+import ConnectedCompanyPage from "./connected_company_page";
 
 
 
-export default function Pallets(params) {
+export default function PalletsPage(params) {
     const [company, setCompany] = useState(params.company);
     const [originalPallets, setOriginalPallets] = useState(params.company.pallets);
     const [addPallet, setAddPallet] = useState(false);
-    // const [changePallet, setChangePallet] = useState(false);
 
     const handleAddPallet = () => {
         setAddPallet(!addPallet);
@@ -83,6 +85,12 @@ export default function Pallets(params) {
             <h1 className='text-3xl font-bold text-gray-900 mb-4 text-center'>Paller</h1>
             <div className="flex justify-center">
                 <button onClick={handleAddPallet} className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>Tilføj palle</button>
+                <Popup trigger={<button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ms-1 me-1'>Ændre pallers pris</button>} modal>
+                <ChangePalletPricePopup company={company} save={saveCompany} />
+                </Popup>
+                <Popup trigger={<button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ms-1 me-1'>Tilslut til andet firma</button>} modal>
+                <ConnectToCompanyPopup company={company} save={saveCompany} />
+                </Popup>
             </div>
              <div className=" flex ms-10 justify-left mb-2">
                 <label className="me-1">Søg på </label>
@@ -96,7 +104,7 @@ export default function Pallets(params) {
             </div>
             {addPallet ? (
                 <div className="flex justify-center">
-                    <form onSubmit={(data) =>{createPallet(data)}}className='fixed z-50 bg-white max-w-md border-2 p-6 border-black rounded-xl shadow-lg text-center w-96'>
+                    <form onSubmit={(data) =>{createPallet(data)}}className='z-50 bg-white max-w-md border-2 p-6 border-black rounded-xl shadow-lg text-center w-96'>
                         <div className='flex flex-col'>
                             <label>Navn</label>
                             <input type='text' name="name" className='border rounded p-1 text-center' required/>
@@ -135,7 +143,7 @@ export default function Pallets(params) {
                     <thead className="">
                         <tr>
                             <th>Varenummer</th>
-                            <th>Navn</th>
+                            <th>Type</th>
                             <th>Kommentar</th>
                             <th>Størrelse</th>
                             <th>Pris</th>
@@ -147,13 +155,13 @@ export default function Pallets(params) {
                         {company.pallets && company.pallets.length > 0 ? (
                         company.pallets.map((pallet) => {
                             return(
-                                <tr className=" border-b-2 " key={pallet.id}>
+                                <tr className=" border-b-2 odd:bg-white even:bg-gray-200 " key={pallet.id}>
                                     <td>{pallet.itemNumber}</td>
                                     <td>{pallet.name}</td>
                                     <td className=" max-w-72">{pallet.comment}</td>
                                     <td>{pallet.size} mm.</td>
                                     <td>{pallet.price}kr</td>
-                                    <td>{pallet.coToo.startsWith("Ikke")? (pallet.coToo):(pallet.coToo + " g")}</td>
+                                    <td>{pallet.coToo.startsWith("Ikke")? (pallet.coToo):(pallet.coToo + "g")}</td>
                                     <td>
                                         <Popup trigger={<button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>{}Rediger</button>} modal>
                                             <ChangePallet company={company} palletId={pallet.id}  />
@@ -172,6 +180,10 @@ export default function Pallets(params) {
                     
                     </table>
             </div>
+            {company.connectedCompanyId == null ? null : (
+                <ConnectedCompanyPage id={company.connectedCompanyId} company={company} save={saveCompany} />
+                )}
+            
         </div>
     )
 }

@@ -15,7 +15,6 @@ export default function ChangePallet(params) {
       body: JSON.stringify(company),
     });
     if (res.ok) {
-      alert("Pallen er nu opdateret");
       window.location.reload();
     } else {
       alert("Der er sket en fejl, prøv igen eller kontakt administrator")

@@ -1,7 +1,7 @@
 import {Pallet} from '@/models/pallet';
 
 export default class Company {
-  constructor(name, address, phone, email, billingMail, paymentDeadline, id, pallets = [], comment = " ") {
+  constructor(name, address, phone, email, billingMail, paymentDeadline, id, pallets = [], comment = " ", connectedCompanyId = null) {
     this.id = id;
     this.name = name;
     this.address = address;
@@ -11,6 +11,7 @@ export default class Company {
     this.paymentDeadline = paymentDeadline;
     this.pallets = pallets;
     this.comment = comment;
+    this.connectedCompanyId = connectedCompanyId;
   }
 
 
@@ -20,7 +21,6 @@ export default class Company {
 
   
   static fromJSON(json) {
-    console.log(json.comment);
     return new Company(
       json.name,
       json.address,
@@ -30,7 +30,8 @@ export default class Company {
       json.paymentDeadline,
       json._id,
       json.pallets.map((pallet) => Pallet.fromJSON(pallet)),
-      json.comment
+      json.comment,
+      json.connectedCompanyId == null ? null : json.connectedCompanyId
     );
   }
 }

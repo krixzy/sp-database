@@ -1,5 +1,7 @@
+import PalletComponentes from "./palletComponentes";
+
 export class Pallet {
-  constructor(name, price, size, itemNumber, comment, coToo, id, palletComponentes = "") {
+  constructor(name, price, size, itemNumber, comment, coToo, id, palletComponentes = new PalletComponentes() ) {
     this.id = id;
     this.name = name;
     this.price = price;
@@ -18,7 +20,8 @@ export class Pallet {
       json.itemNumber,
       json.comment,
       json.coToo,
-      json.id == undefined ? this.generateID() : json.id
+      json.id == undefined ? this.generateID() : json.id,
+      json.palletComponentes == undefined || json.palletComponentes == "" ? new PalletComponentes() : PalletComponentes.fromJSON(json.palletComponentes)
     );
   }
   static generateID = () => {
