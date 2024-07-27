@@ -11,6 +11,7 @@ export default function Page() {
   const [companies, setCompanies] = useState([]);
   const [tableToggle, setTableToggle] = useState(true);
   const [allCompanies, setAllCompanies] = useState([companies]);
+  const [currentSearch, setCurrentSearch] = useState("");
 
   const deleteCompany = async (id) => {
     const res = await fetch(`/api/company/${id}`, {
@@ -111,6 +112,88 @@ export default function Page() {
         break;
     }
   }
+
+  const orderCompanyBy = (event) => {
+    const value = event.target.value;
+    let sortedCompanies;
+    const regex = /(\d+)/;
+    switch (value) {
+      case 'company':
+        if( currentSearch ==  "company"){
+          sortedCompanies = [...companies].sort((a, b) => b.name.localeCompare(a.name));
+          setCompanies(sortedCompanies);
+          setCurrentSearch("");
+          break;  
+        }else{
+          sortedCompanies = [...companies].sort((a, b) => a.name.localeCompare(b.name));
+          setCompanies(sortedCompanies);
+          setCurrentSearch("company");
+          break;
+        }
+      case 'address':
+        if( currentSearch ==  "address"){
+          sortedCompanies = [...companies].sort((a, b) => b.address.localeCompare(a.address));
+          setCompanies(sortedCompanies);
+          setCurrentSearch("");
+          break;
+        }else{
+        sortedCompanies = [...companies].sort((a, b) => a.address.localeCompare(b.address));
+        setCompanies(sortedCompanies);
+        setCurrentSearch("address");
+        break;
+        }
+      case 'phone':
+        if( currentSearch ==  "phone"){
+          sortedCompanies = [...companies].sort((a, b) => b.phone.localeCompare(a.phone));
+          setCompanies(sortedCompanies);
+          setCurrentSearch("");
+          break;
+        }else{
+        sortedCompanies = [...companies].sort((a, b) => a.phone.localeCompare(b.phone));
+        setCompanies(sortedCompanies);
+        setCurrentSearch("phone");
+        break;
+        }
+      case 'email':
+        if( currentSearch ==  "email"){
+          sortedCompanies = [...companies].sort((a, b) => b.email.localeCompare(a.email));
+          setCompanies(sortedCompanies);
+          setCurrentSearch("");
+          break;
+        }else{
+        sortedCompanies = [...companies].sort((a, b) => a.email.localeCompare(b.email));
+        setCompanies(sortedCompanies);
+        setCurrentSearch("email");
+        break;
+        }
+      case 'billingMail':
+        if( currentSearch ==  "billingMail"){
+          sortedCompanies = [...companies].sort((a, b) => b.billingMail.localeCompare(a.billingMail));
+          setCompanies(sortedCompanies);
+          setCurrentSearch("");
+          break;
+        }else{
+        sortedCompanies = [...companies].sort((a, b) => a.billingMail.localeCompare(b.billingMail));
+        setCompanies(sortedCompanies);
+        setCurrentSearch("billingMail");
+        break;
+        }
+      case 'paymentDeadline':
+        if( currentSearch ==  "paymentDeadline"){
+          sortedCompanies = [...companies].sort((a, b) => b.paymentDeadline.match(regex)[0] - a.paymentDeadline.match(regex)[0]);
+          setCompanies(sortedCompanies);
+          setCurrentSearch("");
+          break;
+        }else{
+        sortedCompanies = [...companies].sort((a, b) =>a.paymentDeadline.match(regex)[0] - b.paymentDeadline.match(regex)[0]);
+        setCompanies(sortedCompanies);
+        setCurrentSearch("paymentDeadline");
+        break;
+        }
+      default:
+        break;
+    }
+  };
     while (!loaded) {
       return <h1 className="text-center">Loading...</h1>;
     }
@@ -168,10 +251,10 @@ export default function Page() {
           )}
         </div>
         
-        <div className=" z-0 mb-14">
+        <div className=" z-0 mb-14 md:mx-10">
           
           <h1 className="text-center text-3xl mb-6 font-bold">Virksomheder</h1>
-          <div className=" flex ms-20 justify-left mb-2">
+          <div className=" container flex justify-left mb-2">
             <label className="me-1" htmlFor="">Søg på </label>
             <select id="searchType" name="options">
               <option value="name">Virksomhed:</option>
@@ -182,25 +265,25 @@ export default function Page() {
             </select>
             <input  placeholder="Skriv her" className="border-2 rounded-xl border-black" onChange={searchCompany} type="text" />
           </div>
-            <div className=" ps-8 pe-8 relative overflow-x-auto shadow-md sm:rounded-lg">
+            <div className=" relative overflow-x-auto shadow-md sm:rounded-lg">
               <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead>
                   <tr>
                     {tableToggle ? (
                         <>
-                            <th>Virksomhed</th>
-                            <th>Adresse</th>
-                            <th>Mail</th>
-                            <th>Telefon</th>
+                            <th><button className=" hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={orderCompanyBy} value={"company"}>Virksomhed</button></th>
+                            <th><button className=" hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={orderCompanyBy} value={"address"}>Adresse</button></th>
+                            <th><button className=" hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={orderCompanyBy} value={"email"} >Mail</button></th>
+                            <th><button className=" hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={orderCompanyBy} value={"phone"}>Telefon</button></th>
                             <th>Kommentar</th>
                             <th>Aktioner</th>
                         </>
                     ) : (
                         <>
-                            <th>Virksomhed</th>
-                            <th>Adresse</th>
-                            <th>Betalingsfrist</th>
-                            <th>Faktura mail</th>
+                            <th><button className=" hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={orderCompanyBy} value={"company"}>Virksomhed</button></th>
+                            <th><button className=" hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={orderCompanyBy} value={"address"}>Adresse</button></th>
+                            <th><button className=" hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={orderCompanyBy} value={"paymentDeadline"}>Betalingsfrist</button></th>
+                            <th><button className=" hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50" onClick={orderCompanyBy} value={"billingMail"}>Faktura mail</button></th>
                             <th>Kommentar</th>
                             <th>Aktioner</th>
                         </>
@@ -213,14 +296,14 @@ export default function Page() {
                         <tr key={company._id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-200 even:dark:bg-gray-800 border-b dark:border-gray-700">
                             {tableToggle ? (
                                 <>
-                                  <td className=" text-base">{company.name}</td>
+                                  <td className="text-base">{company.name}</td>
                                   <td className="text-base">{company.address}</td>
                                   <td className="text-base">{company.email}</td>
                                   <td className="text-base">{company.phone}</td>
                                   <td className="text-base max-w-52">{company.comment}</td>
-                                  <td>
-                                      <Link href={`/database/${company._id}`} className="bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600">Se mere</Link>
-                                      <button onClick={() => deleteCompany(company._id)} className="bg-red-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-red-600">Slet</button>
+                                  <td className="flex flex-col text-center md:flex-row">
+                                    <Link href={`/database/${company._id}`} className="bg-blue-500 text-white p-1 text-xs md:text-sm md:py-2 md:px-4 rounded-md cursor-pointer hover:bg-blue-600">Se mere</Link>
+                                    <button onClick={() => deleteCompany(company._id)} className="bg-red-500 text-white p-1 text-xs md:text-sm md:py-2 md:px-4 rounded-md cursor-pointer hover:bg-red-600">Slet</button>
                                   </td>
                                 </>
                             ) : (
@@ -230,9 +313,9 @@ export default function Page() {
                                   <td className="text-base">{company.paymentDeadline}</td>
                                   <td className="text-base">{company.billingMail}</td>
                                   <td className="text-base max-w-52">{company.comment}</td>
-                                  <td className="text-center">
-                                      <Link href={`/database/${company._id}`} className="bg-blue-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-blue-600">Se mere</Link>
-                                      <button onClick={() => deleteCompany(company._id)} className="bg-red-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-red-600">Slet</button>
+                                  <td className="flex flex-col text-center md:flex-row">
+                                    <Link href={`/database/${company._id}`} className="bg-blue-500 text-white p-1 text-xs md:text-sm md:py-2 md:px-4 rounded-md cursor-pointer hover:bg-blue-600">Se mere</Link>
+                                    <button onClick={() => deleteCompany(company._id)} className="bg-red-500 text-white p-1 text-xs md:text-sm md:py-2 md:px-4 rounded-md cursor-pointer hover:bg-red-600">Slet</button>
                                   </td>
                                 </>
                             )}

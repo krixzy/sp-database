@@ -144,10 +144,10 @@ export default function PalletsPage(params) {
                         <tr>
                             <th>Varenummer</th>
                             <th>Type</th>
-                            <th>Kommentar</th>
                             <th>Størrelse</th>
                             <th>Pris</th>
                             <th>Co2 forbrug</th>
+                            <th>Kommentar</th>
                             <th>aktioner</th>
                         </tr>
                     </thead>
@@ -158,10 +158,10 @@ export default function PalletsPage(params) {
                                 <tr className=" border-b-2 odd:bg-white even:bg-gray-200 " key={pallet.id}>
                                     <td>{pallet.itemNumber}</td>
                                     <td>{pallet.name}</td>
-                                    <td className=" max-w-72">{pallet.comment}</td>
                                     <td>{pallet.size} mm.</td>
                                     <td>{pallet.price}kr</td>
                                     <td>{pallet.coToo.startsWith("Ikke")? (pallet.coToo):(pallet.coToo + "g")}</td>
+                                    <td className=" max-w-72">{pallet.comment}</td>
                                     <td>
                                         <Popup trigger={<button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>{}Rediger</button>} modal>
                                             <ChangePallet company={company} palletId={pallet.id}  />
