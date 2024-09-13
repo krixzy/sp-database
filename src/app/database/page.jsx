@@ -296,11 +296,11 @@ export default function Page() {
                         <tr key={company._id} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-200 even:dark:bg-gray-800 border-b dark:border-gray-700">
                             {tableToggle ? (
                                 <>
-                                  <td className="text-base">{company.name}</td>
-                                  <td className="text-base">{company.address}</td>
-                                  <td className="text-base">{company.email}</td>
-                                  <td className="text-base">{company.phone}</td>
-                                  <td className="text-base max-w-52">{company.comment}</td>
+                                  <td className="text-base text-black">{company.name}</td>
+                                  <td className="text-base text-black">{company.address}</td>
+                                  <td className="text-base text-black">{company.email}</td>
+                                  <td className="text-base text-black">{company.phone}</td>
+                                  <td className="text-base max-w-52 text-black">{company.comment}</td>
                                   <td className="flex flex-col text-center md:flex-row">
                                     <Link href={`/database/${company._id}`} className="bg-blue-500 text-white p-1 text-xs md:text-sm md:py-2 md:px-4 rounded-md cursor-pointer hover:bg-blue-600">Se mere</Link>
                                     <button onClick={() => deleteCompany(company._id)} className="bg-red-500 text-white p-1 text-xs md:text-sm md:py-2 md:px-4 rounded-md cursor-pointer hover:bg-red-600">Slet</button>
@@ -308,11 +308,11 @@ export default function Page() {
                                 </>
                             ) : (
                                 <>
-                                  <td className=" text-base">{company.name}</td>
-                                  <td className="text-base">{company.address}</td>
-                                  <td className="text-base">{company.paymentDeadline}</td>
-                                  <td className="text-base">{company.billingMail}</td>
-                                  <td className="text-base max-w-52">{company.comment}</td>
+                                  <td className="text-base text-black">{company.name}</td>
+                                  <td className="text-base text-black">{company.address}</td>
+                                  <td className="text-base text-black">{company.paymentDeadline}</td>
+                                  <td className="text-base text-black">{company.billingMail}</td>
+                                  <td className="text-base max-w-52 text-black">{company.comment}</td>
                                   <td className="flex flex-col text-center md:flex-row">
                                     <Link href={`/database/${company._id}`} className="bg-blue-500 text-white p-1 text-xs md:text-sm md:py-2 md:px-4 rounded-md cursor-pointer hover:bg-blue-600">Se mere</Link>
                                     <button onClick={() => deleteCompany(company._id)} className="bg-red-500 text-white p-1 text-xs md:text-sm md:py-2 md:px-4 rounded-md cursor-pointer hover:bg-red-600">Slet</button>
